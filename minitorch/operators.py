@@ -91,7 +91,7 @@ def neg(x: float) -> float:
         float: Negated input number.
 
     """
-    return -x
+    return float(-x)
 
 
 def lt(x: float, y: float) -> bool:
@@ -170,7 +170,7 @@ def sigmoid(x: float) -> float:
         float: Sigmoid of the input number.
 
     """
-    if x >= 0:
+    if x >= 0.0:
         return 1.0 / (1.0 + math.exp(-x))
     else:
         return math.exp(x) / (1.0 + math.exp(x))
@@ -188,7 +188,7 @@ def relu(x: float) -> float:
         float: Rectified linear unit of the input number.
 
     """
-    return max(0, x)
+    return max(0.0, x)
 
 
 def log(x: float) -> float:
@@ -281,7 +281,7 @@ def relu_back(x: float, y: float) -> float:
         float: Derivative of relu times y.
 
     """
-    return y if x > 0 else 0
+    return y if x > 0.0 else 0.0
 
 
 # ## Task 0.3

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Iterable, List, Tuple
+from typing import Any, Iterable, Tuple
 
 from typing_extensions import Protocol
 
@@ -50,6 +50,10 @@ class Variable(Protocol):
     def chain_rule(self, d_output: Any) -> Iterable[Tuple["Variable", Any]]:
         pass
 
+    @property
+    def history(self) -> Any:
+        pass
+
 
 def topological_sort(variable: Variable) -> Iterable[Variable]:
     """
@@ -64,7 +68,7 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
     visited = set()
     topo_order = []
 
-    def visit(var):
+    def visit(var: Variable) -> None:
         if var.unique_id in visited or var.is_constant():
             return
         visited.add(var.unique_id)
@@ -74,7 +78,6 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
 
     visit(variable)
     return reversed(topo_order)
-
 
 
 def backpropagate(variable: Variable, deriv: Any) -> None:
@@ -105,7 +108,6 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
                     derivatives[parent.unique_id] += d_input
                 else:
                     derivatives[parent.unique_id] = d_input
-
 
 
 @dataclass

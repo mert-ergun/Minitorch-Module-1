@@ -126,7 +126,6 @@ class Inv(ScalarFunction):
         return operators.inv_back(a, d_output)
 
 
-
 class Neg(ScalarFunction):
     "Negation function"
 

@@ -3,7 +3,7 @@
 import math
 
 # ## Task 0.1
-from typing import Callable, Iterable, Optional
+from typing import Callable, Iterable, Optional, TypeVar
 
 #
 # Implementation of a prelude of elementary functions.
@@ -174,7 +174,7 @@ def sigmoid(x: float) -> float:
         return 1.0 / (1.0 + math.exp(-x))
     else:
         return math.exp(x) / (1.0 + math.exp(x))
-    
+
 
 def sigmoid_back(a: float, d_output: float) -> float:
     """Compute the derivative of the sigmoid function."""
@@ -324,8 +324,11 @@ def relu_back(x: float, y: float) -> float:
 
 # TODO: Implement for Task 0.3.
 
+T = TypeVar("T")
+U = TypeVar("U")
 
-def map(func: Callable, iter: Iterable) -> Iterable:
+
+def map(func: Callable[[T], U], iter: Iterable[T]) -> Iterable[U]:
     """Applies given function to each element of given iterable.
 
     Args:
@@ -341,7 +344,9 @@ def map(func: Callable, iter: Iterable) -> Iterable:
     return [func(x) for x in iter]
 
 
-def zipWith(func: Callable, first_iter: Iterable, second_iter: Iterable) -> Iterable:
+def zipWith(
+    func: Callable[[T, T], U], first_iter: Iterable[T], second_iter: Iterable[T]
+) -> Iterable[U]:
     """Applies given function to each element of given two iterables and combines them.
 
     Args:
@@ -358,7 +363,9 @@ def zipWith(func: Callable, first_iter: Iterable, second_iter: Iterable) -> Iter
     return [func(x, y) for x, y in zip(first_iter, second_iter)]
 
 
-def reduce(func: Callable, lis: Iterable, initial: Optional[float] = None) -> float:
+def reduce(
+    func: Callable[[T, T], T], lis: Iterable[T], initial: Optional[T] = None
+) -> T:
     """Higher-order function that reduces an iterable to a single value using a given function, starting with an optional initial value.
 
     Args:
@@ -385,7 +392,9 @@ def reduce(func: Callable, lis: Iterable, initial: Optional[float] = None) -> fl
     return acc
 
 
-def addLists(first_iter: Iterable, second_iter: Iterable) -> Iterable:
+def addLists(
+    first_iter: Iterable[float], second_iter: Iterable[float]
+) -> Iterable[float]:
     """Adds two lists together.
 
     Args:
@@ -401,7 +410,7 @@ def addLists(first_iter: Iterable, second_iter: Iterable) -> Iterable:
     return zipWith(add, first_iter, second_iter)
 
 
-def negList(iter: Iterable) -> Iterable:
+def negList(iter: Iterable[float]) -> Iterable[float]:
     """Negates all element in a list.
 
     Args:
@@ -416,7 +425,7 @@ def negList(iter: Iterable) -> Iterable:
     return map(neg, iter)
 
 
-def sum(iter: Iterable) -> float:
+def sum(iter: Iterable[float]) -> float:
     """Sum all elements in a list using reduce.
 
     Args:
@@ -431,7 +440,7 @@ def sum(iter: Iterable) -> float:
     return reduce(add, iter, 0.0)
 
 
-def prod(iter: Iterable) -> float:
+def prod(iter: Iterable[float]) -> float:
     """Take the product of all elements in a list using reduce.
 
     Args:

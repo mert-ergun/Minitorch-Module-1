@@ -174,6 +174,12 @@ def sigmoid(x: float) -> float:
         return 1.0 / (1.0 + math.exp(-x))
     else:
         return math.exp(x) / (1.0 + math.exp(x))
+    
+
+def sigmoid_back(a: float, d_output: float) -> float:
+    """Compute the derivative of the sigmoid function."""
+    s = sigmoid(a)
+    return d_output * s * (1 - s)
 
 
 def relu(x: float) -> float:
@@ -219,6 +225,22 @@ def exp(x: float) -> float:
 
     """
     return math.exp(x)
+
+
+def exp_back(x: float, y: float) -> float:
+    """Computes the derivative of exp times a second arg.
+
+    Args:
+    ----
+        x (float): The first number.
+        y (float): The second number.
+
+    Returns:
+    -------
+        float: Derivative of exp times y.
+
+    """
+    return y * exp(x)
 
 
 def inv(x: float) -> float:
